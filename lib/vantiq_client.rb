@@ -9,27 +9,27 @@ module VantiqClient
     @faraday_client = faraday_client || Faraday.new(url: "https://#{vantiq_url}")
   end
 
-  def create(model_alias, recodes)
+  def create(model_alias, recodes, vantiq_token)
     res = @faraday_client.post do |req|
-      http_headers(req)
+      http_headers(req, vantiq_token)
       req.url(model_alias.to_s)
       req.body = recodes.to_json
     end
     JSON.parse(res.body)
   end
 
-  def update(model_alias, id, diff)
+  def update(model_alias, id, diff, vantiq_token)
     res = @faraday_client.put do |req|
-      http_headers(req)
+      http_headers(req, vantiq_token)
       req.url("#{model_alias}?where={\"id\":#{id}}")
       req.body = diff.to_json
     end
     JSON.parse(res.body)
   end
 
-  def delete(model_alias, id)
+  def delete(model_alias, id, vantiq_token)
     res = @faraday_client.delete do |req|
-      http_headers(req)
+      http_headers(req, vantiq_token)
       req.url("#{model_alias}?where={\"id\":#{id}}")
     end
     JSON.parse(res.body)
