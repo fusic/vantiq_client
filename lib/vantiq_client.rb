@@ -4,7 +4,7 @@ require 'json'
 module VantiqClient
   class Error < StandardError; end
 
-  def initialize(faraday_client: nil, vantiq_url)
+  def initialize(vantiq_url, faraday_client: nil)
     @faraday_client = faraday_client || Faraday.new(url: "https://#{vantiq_url}")
   end
 
