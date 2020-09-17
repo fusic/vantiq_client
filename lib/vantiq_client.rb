@@ -9,17 +9,17 @@ module Vantiq
       @faraday_client = faraday_client || Faraday.new(url: "https://#{vantiq_url}")
     end
 
-    def index(model_alias)
+    def index(model_alias, vantiq_token)
       res = @faraday_client.get do |req|
-        http_headers(req)
+        http_headers(req, vantiq_token)
         req.url(model_alias.to_s)
       end
       res
     end
 
-    def show(model_alias, id)
+    def show(model_alias, id, vantiq_token)
       res = @faraday_client.get do |req|
-        http_headers(req)
+        http_headers(req, vantiq_token)
         req.url("#{model_alias}?where={\"id\":#{id}}")
       end
       res
